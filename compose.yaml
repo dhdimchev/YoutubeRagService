@@ -1,0 +1,39 @@
+services:
+  pgvector:
+    image: 'pgvector/pgvector:pg16'
+    container_name: rag-postgres
+    restart: unless-stopped
+    environment:
+      - 'POSTGRES_DB=rag_system'
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=password'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rag_system"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - '5433:5432'
+
+  rag-service:
+    image: '${REGISTRY_USER:-your-username}/youtube-rag-service:latest'
+    build: .  # uncomment for local build
+    container_name: youtube-rag-service
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://pgvector:5432/rag_system'
+      - 'SPRING_DATASOURCE_USERNAME=postgres'
+      - 'SPRING_DATASOURCE_PASSWORD=password'
+      - 'OLLAMA_BASE_URL=${OLLAMA_BASE_URL}'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      pgvector:
+        condition: service_healthy
+
+volumes:
+  pgdata:

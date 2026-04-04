@@ -1,0 +1,11 @@
+target/
+mvnw
+mvnw.cmd
+.mvn/
+.idea/
+.git/
+*.jar
+pom.xml.releaseBackup
+release.properties
+*.sh
+*.bat

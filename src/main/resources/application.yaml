@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: YoutubeRagService
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/rag_system}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  ai:
+    ollama:
+      baseUrl: ${OLLAMA_BASE_URL:http://host.docker.internal:11434}
+      connection-timeout: 600s
+      read-timeout: 600s
+      chat:
+        model: gemma4:31b
+        options:
+          num_ctx: 32768
+          temperature: 0.2
+      embedding:
+        model: bge-m3
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        dimensions: 1024
