@@ -22,8 +22,7 @@ class IngestionController {
 
     @PostMapping
     public ResponseEntity<Void> ingest(
-            @RequestParam("files") List<MultipartFile> files
-    ) {
+            @RequestParam("files") List<MultipartFile> files) {
         ingestionService.process(files);
         return ResponseEntity.accepted().build();
     }

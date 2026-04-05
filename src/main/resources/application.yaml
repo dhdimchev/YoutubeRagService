@@ -6,6 +6,11 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
   ai:
     ollama:
       baseUrl: ${OLLAMA_BASE_URL:http://host.docker.internal:11434}

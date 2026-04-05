@@ -18,7 +18,7 @@ services:
       - '5433:5432'
 
   rag-service:
-    image: '${REGISTRY_USER:-your-username}/youtube-rag-service:latest'
+#    image: '${REGISTRY_USER:-your-username}/youtube-rag-service:latest'
     build: .  # uncomment for local build
     container_name: youtube-rag-service
     restart: unless-stopped
